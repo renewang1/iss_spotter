@@ -64,8 +64,7 @@ const fetchISSFlyOverTimes = function(coords, callback) {
       return;
     }
     const data = JSON.parse(body);
-    let flyOvers = [];
-    flyOvers.push(data.response);
+    let flyOvers = (data.response);
     callback(null, flyOvers);
   })
 };
@@ -82,9 +81,28 @@ const fetchISSFlyOverTimes = function(coords, callback) {
  *     [ { risetime: <number>, duration: <number> }, ... ]
  */ 
 const nextISSTimesForMyLocation = function(callback) {
+  fetchMyIP((error, ip) => {
+    if (error) {
+      console.log("It didn't work!" , error);
+      return;
+    }
   
-}
+    let IP = ip.ip;
+    fetchCoordsByIP(IP, (error, coords) => {
+      if (error) {
+        console.log("It didn't work!" , error);
+        return;
+      }
+      let latLong = coords;
+      fetchISSFlyOverTimes(latLong, (error, flyOvers) => {
+        if (error) {
+          console.log("It didn't work!" , error);
+          return;
+        }
+        callback(null, flyOvers)
+      });
+    });
+  });
+};
 
-
-
-module.exports = { nextISSTimesForMyLocation };
+module.exports = { nextISSTimesForMyLocation};
