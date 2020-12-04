@@ -8,7 +8,7 @@ const printTimes = (times) => {
     const dur = item.duration;
     console.log(`Next pass at ${date} for ${dur} seconds`);
   }
-}
+};
 
 nextISSTimesForMyLocation((error, passTimes) => {
   if (error) {
